@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Estudio Arquitectura | Proyectos</title>
+  <meta name="description" content="Portafolio de arquitectura de alta gama. Proyectos residenciales, corporativos y culturales." />
+
+  <!-- Preconnect tipografía -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Flash prevention: set theme antes del render -->
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'))</script>
+</head>
+<body>
+
+  <!-- ==========================================
+       NAVEGACIÓN
+       ========================================== -->
+  <nav class="nav" id="navbar">
+    <div class="container nav__inner">
+      <a href="#" class="nav__logo">Jeankarlo Talledo<span>.</span></a>
+
+      <ul class="nav__links" id="navLinks">
+        <li><a href="#proyectos" class="nav__link">Proyectos</a></li>
+        <li><a href="#filosofia" class="nav__link">Filosofía</a></li>
+        <li><a href="#contacto" class="nav__link">Contacto</a></li>
+      </ul>
+
+      <button class="theme-toggle" id="themeToggle" aria-label="Cambiar modo oscuro/claro">
+        <svg class="theme-toggle__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+        </svg>
+        <svg class="theme-toggle__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="12" r="5"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+      </button>
+
+      <button class="nav__toggle" id="navToggle" aria-label="Menú de navegación">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ==========================================
+       HERO
+       ========================================== -->
+  <section class="hero" id="inicio">
+    <div class="hero__bg">
+      <img
+        src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80"
+        alt="Fachada de arquitectura contemporánea"
+        loading="eager"
+      />
+    </div>
+    <div class="hero__overlay"></div>
+
+    <div class="hero__content">
+      <p class="hero__subtitle">Estudio de Arquitectura</p>
+      <h1 class="hero__title">
+        Espacios que<br /><em>trascienden</em>
+      </h1>
+      <p class="hero__desc">
+        Arquitectura, diseño e identidad — cada proyecto es la búsqueda de un
+        equilibrio esencial entre luz, materia y paisaje.
+      </p>
+    </div>
+
+    <div class="hero__scroll">
+      <span class="hero__scroll-line"></span>
+      <span class="hero__scroll-text">Descubrir</span>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       PROYECTOS / GALERÍA
+       ========================================== -->
+  <section class="section" id="proyectos">
+    <div class="container">
+      <div class="section__header reveal">
+        <p class="section-label">Obra construida</p>
+        <h2 class="section__title">Proyectos</h2>
+      </div>
+
+      <div class="gallery" id="gallery">
+        <div class="gallery__item reveal reveal-delay-1" data-index="0">
+          <img class="gallery__img" src="https://images.unsplash.com/photo-1600585154340-4c0e3b4b0b1a?w=800&q=80" alt="Casa Atemporal — Punta del Este" loading="lazy" />
+          <span class="gallery__category">Residencial</span>
+          <div class="gallery__overlay">
+            <h3 class="gallery__project-name">Casa Atemporal</h3>
+            <p class="gallery__project-meta"><span>2024</span><span>Punta del Este</span></p>
+          </div>
+        </div>
+
+        <div class="gallery__item reveal reveal-delay-2" data-index="1">
+          <img class="gallery__img" src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=800&q=80" alt="Torre Celeste — Ciudad de México" loading="lazy" />
+          <span class="gallery__category">Corporativo</span>
+          <div class="gallery__overlay">
+            <h3 class="gallery__project-name">Torre Celeste</h3>
+            <p class="gallery__project-meta"><span>2023</span><span>Ciudad de México</span></p>
+          </div>
+        </div>
+
+        <div class="gallery__item reveal reveal-delay-3" data-index="2">
+          <img class="gallery__img" src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=800&q=80" alt="Residencia Marbella" loading="lazy" />
+          <span class="gallery__category">Residencial</span>
+          <div class="gallery__overlay">
+            <h3 class="gallery__project-name">Residencia Marbella</h3>
+            <p class="gallery__project-meta"><span>2024</span><span>Marbella, España</span></p>
+          </div>
+        </div>
+
+        <div class="gallery__item reveal reveal-delay-4" data-index="3">
+          <img class="gallery__img" src="https://images.unsplash.com/photo-1600566753198-0b0c7c3b4a5b?w=800&q=80" alt="Museo del Silencio — Oaxaca" loading="lazy" />
+          <span class="gallery__category">Cultural</span>
+          <div class="gallery__overlay">
+            <h3 class="gallery__project-name">Museo del Silencio</h3>
+            <p class="gallery__project-meta"><span>2022</span><span>Oaxaca, México</span></p>
+          </div>
+        </div>
+
+        <div class="gallery__item reveal reveal-delay-5" data-index="4">
+          <img class="gallery__img" src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80" alt="Villa Horizonte — Tulum" loading="lazy" />
+          <span class="gallery__category">Residencial</span>
+          <div class="gallery__overlay">
+            <h3 class="gallery__project-name">Villa Horizonte</h3>
+            <p class="gallery__project-meta"><span>2023</span><span>Tulum, México</span></p>
+          </div>
+        </div>
+
+        <div class="gallery__item reveal reveal-delay-1" data-index="5">
+          <img class="gallery__img" src="https://images.unsplash.com/photo-1600566753376-12c8ab7c4a5b?w=800&q=80" alt="Pabellón Efímero — Buenos Aires" loading="lazy" />
+          <span class="gallery__category">Cultural</span>
+          <div class="gallery__overlay">
+            <h3 class="gallery__project-name">Pabellón Efímero</h3>
+            <p class="gallery__project-meta"><span>2024</span><span>Buenos Aires</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FILOSOFÍA
+       ========================================== -->
+  <section class="section section--alt" id="filosofia">
+    <div class="container">
+      <div class="about">
+        <div class="about__image reveal">
+          <img src="https://images.unsplash.com/photo-1613490493576-7f4f9e2d0a1d?w=800&q=80" alt="Detalle constructivo de arquitectura moderna" loading="lazy" />
+        </div>
+
+        <div class="about__content">
+          <div class="reveal">
+            <p class="section-label">Nuestra visión</p>
+            <h2 class="section__title">Filosofía</h2>
+          </div>
+
+          <p class="about__text reveal reveal-delay-1">
+            La arquitectura no es solo el arte de construir espacios, sino la
+            búsqueda constante de equilibrio entre forma, luz y materia. Cada
+            proyecto nace del diálogo entre el paisaje y la necesidad humana,
+            donde el vacío cobra tanto significado como lo tangible.
+          </p>
+
+          <p class="about__text reveal reveal-delay-2">
+            Creemos en una arquitectura que trasciende lo meramente visual para
+            convertirse en experiencia sensorial. Trabajamos con materiales
+            nobles, geometrías precisas y una profunda sensibilidad por el
+            contexto. No imponemos — escuchamos, interpretamos y traducimos.
+          </p>
+
+          <div class="reveal reveal-delay-3">
+            <p class="about__signature">— Juan Larrea</p>
+            <p class="about__signature-role">Arquitecto &amp; Fundador</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       CONTACTO
+       ========================================== -->
+  <section class="section" id="contacto">
+    <div class="container">
+      <div class="contact reveal">
+        <p class="section-label">Contacto</p>
+        <h2 class="section__title">Trabajemos juntos</h2>
+        <p class="contact__text">
+          Cada proyecto comienza con una conversación. Si tienes una idea,
+          un espacio o una inquietud arquitectónica, hablemos.
+        </p>
+
+        <a href="https://wa.me/521234567890?text=Hola%2C%20me%20gustar%C3%ADa%20solicitar%20una%20consulta%20sobre%20un%20proyecto%20arquitect%C3%B3nico." target="_blank" rel="noopener noreferrer" class="contact__btn">
+          <span>Iniciar conversación</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21 12a9 9 0 11-9-9" stroke-linecap="round"/>
+            <path d="M21 3l-9 9" stroke-linecap="round"/>
+            <path d="M15 3h6v6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <div class="contact__details">
+          <div class="contact__detail-item">
+            <p class="contact__detail-label">Email</p>
+            <p>hola@estudioarq.mx</p>
+          </div>
+          <div class="contact__detail-item">
+            <p class="contact__detail-label">Teléfono</p>
+            <p>+52 123 456 7890</p>
+          </div>
+          <div class="contact__detail-item">
+            <p class="contact__detail-label">Ubicación</p>
+            <p>Ciudad de México</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FOOTER
+       ========================================== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p class="footer__brand">Estudio<span>.</span></p>
+      <p>&copy; 2024 Estudio Arquitectura — Todos los derechos reservados</p>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       WHATSAPP FLOTANTE
+       ========================================== -->
+  <a href="https://wa.me/521234567890?text=Hola%2C%20me%20gustar%C3%ADa%20solicitar%20una%20consulta%20sobre%20un%20proyecto%20arquitect%C3%B3nico." target="_blank" rel="noopener noreferrer" class="whatsapp-btn" id="whatsappBtn" aria-label="Contactar por WhatsApp">
+    <span class="whatsapp-btn__tooltip">Escríbenos</span>
+    <svg viewBox="0 0 24 24">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <!-- ==========================================
+       MODAL / LIGHTBOX
+       ========================================== -->
+  <div class="modal" id="modal" role="dialog" aria-label="Vista ampliada del proyecto">
+    <div class="modal__content">
+      <button class="modal__close" id="modalClose" aria-label="Cerrar">&times;</button>
+      <img class="modal__img" id="modalImg" src="" alt="" />
+      <div class="modal__info">
+        <p class="modal__info-title" id="modalTitle"></p>
+        <p class="modal__info-meta" id="modalMeta"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script -->
+  <script src="js/main.js"></script>
+</body>
+</html>
