@@ -284,6 +284,19 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ========================================
+  // THEME TOGGLE — admin
+  // ========================================
+  const adminThemeToggle = document.getElementById('adminThemeToggle');
+  if (adminThemeToggle) {
+    adminThemeToggle.addEventListener('click', () => {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+  }
+
+  // ========================================
   // NAVEGACIÓN ENTRE SECCIONES
   // ========================================
   document.querySelectorAll('.dash-sidebar__item').forEach(btn => {

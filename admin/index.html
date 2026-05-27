@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/admin/css/admin.css" />
+  <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme')||(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'))</script>
 </head>
 <body>
 
@@ -66,6 +67,14 @@
       <div class="dash-nav__inner">
         <div class="dash-nav__brand">Bimtaproyectos<span>.</span></div>
         <div class="dash-nav__right">
+          <button class="admin-theme-toggle" id="adminThemeToggle" aria-label="Cambiar modo oscuro/claro">
+            <svg class="admin-theme-toggle__moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16">
+              <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+            </svg>
+            <svg class="admin-theme-toggle__sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16">
+              <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+            </svg>
+          </button>
           <span class="dash-nav__user" id="userEmail"></span>
           <button class="dash-nav__logout" id="logoutBtn">Salir</button>
         </div>

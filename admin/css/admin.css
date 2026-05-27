@@ -23,6 +23,21 @@
   --transition: 0.3s ease;
 }
 
+/* ============================================
+   DARK MODE
+   ============================================ */
+[data-theme="dark"] {
+  --color-bg: #0f0f0f;
+  --color-surface: #1a1a1a;
+  --color-dark: #e8e8e8;
+  --color-text: #cccccc;
+  --color-text-secondary: #888888;
+  --color-text-muted: #555555;
+  --color-border: #2a2a2a;
+  --color-accent: #c9a96e;
+  --color-accent-soft: rgba(201, 169, 110, 0.12);
+}
+
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -336,6 +351,38 @@ body {
 .dash-nav__logout:hover {
   color: var(--color-danger);
   border-color: var(--color-danger);
+}
+
+/* Admin theme toggle */
+.admin-theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  border-radius: 50%;
+  transition: color var(--transition), background var(--transition);
+}
+
+.admin-theme-toggle:hover {
+  color: var(--color-accent);
+  background: var(--color-accent-soft);
+}
+
+.admin-theme-toggle__sun {
+  display: none;
+}
+
+[data-theme="dark"] .admin-theme-toggle__sun {
+  display: block;
+}
+
+[data-theme="dark"] .admin-theme-toggle__moon {
+  display: none;
 }
 
 /* ============================================
