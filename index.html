@@ -189,12 +189,16 @@
        MODAL / LIGHTBOX
        ========================================== -->
   <div class="modal" id="modal" role="dialog" aria-label="Vista ampliada del proyecto">
+    <div class="modal__backdrop"></div>
     <div class="modal__content">
       <button class="modal__close" id="modalClose" aria-label="Cerrar">&times;</button>
-      <img class="modal__img" id="modalImg" src="" alt="" />
-      <div class="modal__info">
-        <p class="modal__info-title" id="modalTitle"></p>
-        <p class="modal__info-meta" id="modalMeta"></p>
+      <div class="modal__layout">
+        <div class="modal__gallery" id="modalGallery"></div>
+        <div class="modal__side">
+          <h2 class="modal__side-title" id="modalTitle"></h2>
+          <p class="modal__side-meta" id="modalMeta"></p>
+          <p class="modal__side-desc" id="modalDesc"></p>
+        </div>
       </div>
     </div>
   </div>

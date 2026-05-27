@@ -143,22 +143,44 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ========================================
-  // MODAL (usa projectsData en vez de array hardcodeado)
+  // MODAL — cascada de imágenes + descripción
   // ========================================
   const modal = $('modal');
-  const modalImg = $('modalImg');
+  const modalGallery = $('modalGallery');
   const modalTitle = $('modalTitle');
   const modalMeta = $('modalMeta');
+  const modalDesc = $('modalDesc');
   const modalClose = $('modalClose');
 
   function openModal(index) {
     const p = projectsData[index];
     if (!p) return;
-    const fullImg = p.cover_image || '';
-    modalImg.src = fullImg;
-    modalImg.alt = p.title;
+
+    // Renderizar imágenes en cascada
+    modalGallery.innerHTML = '';
+    const allImages = [];
+
+    if (p.cover_image) allImages.push(p.cover_image);
+    if (p.images && Array.isArray(p.images) && p.images.length > 0) {
+      p.images.forEach(img => { if (img) allImages.push(img); });
+    }
+
+    if (allImages.length === 0) {
+      modalGallery.innerHTML = '<p style="color:rgba(255,255,255,0.4);padding:2rem;text-align:center">Sin imágenes</p>';
+    } else {
+      allImages.forEach(src => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = p.title;
+        img.loading = 'lazy';
+        modalGallery.appendChild(img);
+      });
+    }
+
     modalTitle.textContent = p.title;
     modalMeta.textContent = `${capitalize(p.category)} — ${p.year} / ${p.location}`;
+    modalDesc.textContent = p.description || '';
+
     modal.classList.add('is-open');
     document.body.style.overflow = 'hidden';
   }
@@ -166,10 +188,17 @@ document.addEventListener('DOMContentLoaded', () => {
   function closeModal() {
     modal.classList.remove('is-open');
     document.body.style.overflow = '';
+    modalGallery.innerHTML = '';
+    modalDesc.textContent = '';
   }
 
   modalClose.addEventListener('click', closeModal);
-  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+  // Cerrar al hacer clic en el backdrop
+  const modalBackdrop = document.querySelector('.modal__backdrop');
+  if (modalBackdrop) {
+    modalBackdrop.addEventListener('click', closeModal);
+  }
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
   });
