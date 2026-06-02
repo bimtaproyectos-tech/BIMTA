@@ -24,17 +24,17 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function apiGet(path, token) {
-    const r = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
-      headers: getHeaders(token),
-    });
+    const headers = getHeaders(token);
+    const r = await authFetch(`${SUPABASE_URL}/rest/v1/${path}`, { headers });
     if (!r.ok) throw new Error(`GET ${path}: ${r.status}`);
     return r.json();
   }
 
   async function apiPost(path, body, token) {
-    const r = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    const headers = getHeaders(token);
+    const r = await authFetch(`${SUPABASE_URL}/rest/v1/${path}`, {
       method: 'POST',
-      headers: getHeaders(token),
+      headers,
       body: JSON.stringify(body),
     });
     if (!r.ok) { const t = await r.text().catch(() => ''); throw new Error(`POST ${path}: ${r.status} ${t}`); }
@@ -42,9 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function apiPatch(path, body, token) {
-    const r = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    const headers = getHeaders(token);
+    const r = await authFetch(`${SUPABASE_URL}/rest/v1/${path}`, {
       method: 'PATCH',
-      headers: getHeaders(token),
+      headers,
       body: JSON.stringify(body),
     });
     if (!r.ok) { const t = await r.text().catch(() => ''); throw new Error(`PATCH ${path}: ${r.status} ${t}`); }
@@ -52,9 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   async function apiDelete(path, token) {
-    const r = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    const headers = getHeaders(token);
+    const r = await authFetch(`${SUPABASE_URL}/rest/v1/${path}`, {
       method: 'DELETE',
-      headers: getHeaders(token),
+      headers,
     });
     if (!r.ok) { const t = await r.text().catch(() => ''); throw new Error(`DELETE ${path}: ${r.status} ${t}`); }
     return r.json();
@@ -64,32 +66,74 @@ document.addEventListener('DOMContentLoaded', () => {
   // AUTH
   // ========================================
   let accessToken = null;
+  let refreshToken = null;
 
-  function saveSession(token, email) {
+  function saveSession(token, email, refresh) {
     accessToken = token;
+    refreshToken = refresh || null;
     localStorage.setItem('sb-token', token);
     localStorage.setItem('sb-email', email);
+    if (refresh) localStorage.setItem('sb-refresh', refresh);
   }
 
   function clearSession() {
     accessToken = null;
+    refreshToken = null;
     localStorage.removeItem('sb-token');
     localStorage.removeItem('sb-email');
+    localStorage.removeItem('sb-refresh');
   }
 
   function loadSession() {
     const token = localStorage.getItem('sb-token');
     const email = localStorage.getItem('sb-email');
+    const refresh = localStorage.getItem('sb-refresh');
     if (token) {
       accessToken = token;
+      refreshToken = refresh || null;
       return email;
     }
     return null;
   }
 
+  async function refreshAccessToken() {
+    if (!refreshToken) return false;
+    try {
+      const r = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ refresh_token: refreshToken }),
+      });
+      if (!r.ok) return false;
+      const data = await r.json();
+      saveSession(data.access_token, localStorage.getItem('sb-email'), data.refresh_token || refreshToken);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  async function authFetch(url, options) {
+    const r = await fetch(url, options);
+    // Si es 401, intentamos refrescar el token y reintentamos una vez
+    if (r.status === 401 && refreshToken) {
+      const refreshed = await refreshAccessToken();
+      if (refreshed) {
+        const newHeaders = { ...options.headers, 'Authorization': `Bearer ${accessToken}` };
+        return fetch(url, { ...options, headers: newHeaders });
+      }
+    }
+    return r;
+  }
+
   async function checkSession() {
     const email = loadSession();
     if (email && accessToken) {
+      // Si hay refresh token, intentamos refreshear por las dudas
+      if (refreshToken) await refreshAccessToken();
       currentUserEmail = email;
       showDashboard();
     }
@@ -109,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
       throw new Error(err.error_description || err.msg || 'Error al iniciar sesión');
     }
     const data = await r.json();
-    saveSession(data.access_token, data.user.email);
+    saveSession(data.access_token, data.user.email, data.refresh_token);
     currentUserEmail = data.user.email;
     showDashboard();
   }
@@ -130,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = await r.json();
     // Si el servidor devuelve access_token, auto-logueamos
     if (data.access_token) {
-      saveSession(data.access_token, data.user.email);
+      saveSession(data.access_token, data.user.email, data.refresh_token);
       currentUserEmail = data.user.email;
       showDashboard();
       return;
@@ -332,19 +376,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const ext = file.name.split('.').pop().replace(/[^a-zA-Z0-9]/g, '');
     const fileName = `${folder}/${Date.now()}_${Math.random().toString(36).slice(2, 8)}.${ext}`;
 
-    const r = await fetch(
-      `${SUPABASE_URL}/storage/v1/object/portfolio-images/${fileName}`,
-      {
+    async function doUpload(token) {
+      return fetch(`${SUPABASE_URL}/storage/v1/object/portfolio-images/${fileName}`, {
         method: 'POST',
         headers: {
           'apikey': SUPABASE_KEY,
-          'Authorization': `Bearer ${accessToken}`,
+          'Authorization': `Bearer ${token}`,
           'Content-Type': file.type,
           'x-upsert': 'true',
         },
         body: file,
-      }
-    );
+      });
+    }
+
+    let r = await doUpload(accessToken);
+
+    // Si el token expiró, refrescamos y reintentamos una vez
+    if (r.status === 401 && refreshToken) {
+      const refreshed = await refreshAccessToken();
+      if (refreshed) r = await doUpload(accessToken);
+    }
 
     if (!r.ok) {
       const t = await r.text().catch(() => '');
@@ -471,7 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let existingImages = [];
-    if (additionalUrls.length === 0 && id) {
+    if (id) {
       const p = projects.find(x => x.id === Number(id));
       if (p && p.images) existingImages = p.images;
     }

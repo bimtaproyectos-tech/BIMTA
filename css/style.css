@@ -494,38 +494,26 @@ h1, h2, h3, h4 {
    GALLERY / PROJECTS
    ============================================ */
 .gallery {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 2rem;
-}
-
-@media (max-width: 768px) {
-  .gallery {
-    gap: 1rem;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .gallery__item {
-  grid-column: span 6;
+  width: 100%;
+  max-width: 900px;
   position: relative;
   overflow: hidden;
   cursor: pointer;
   border-radius: var(--radius);
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 10;
   background: var(--color-bg-alt);
 }
 
-.gallery__item:nth-child(3n+1) {
-  grid-column: span 7;
-}
-
-.gallery__item:nth-child(3n+2) {
-  grid-column: span 5;
-}
-
-.gallery__item:nth-child(3n+3) {
-  grid-column: span 12;
-  aspect-ratio: 21 / 9;
+.gallery__item + .gallery__item {
+  margin-top: 1rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--color-border);
 }
 
 .gallery__img {
@@ -1133,12 +1121,12 @@ h1, h2, h3, h4 {
   }
 
   /* Gallery */
-  .gallery__item,
-  .gallery__item:nth-child(3n+1),
-  .gallery__item:nth-child(3n+2),
-  .gallery__item:nth-child(3n+3) {
-    grid-column: span 12;
+  .gallery__item {
     aspect-ratio: 4 / 3;
+  }
+
+  .gallery__item + .gallery__item {
+    padding-top: 2rem;
   }
 
   /* About */
