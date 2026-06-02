@@ -407,9 +407,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function showPreview(input, container, single = true) {
-    container.innerHTML = '';
     const files = input.files;
     if (!files || files.length === 0) return;
+    // Para imágenes múltiples, append en vez de reemplazar
+    if (!single) container.querySelector('.preview-label')?.remove();
     const show = (file) => {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -419,7 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
       };
       reader.readAsDataURL(file);
     };
-    if (single) show(files[0]);
+    if (single) { container.innerHTML = ''; show(files[0]); }
     else Array.from(files).slice(0, 6).forEach(show);
   }
 
@@ -487,6 +488,20 @@ document.addEventListener('DOMContentLoaded', () => {
       if (p.cover_image) {
         pCoverPreview.innerHTML = `<img src="${p.cover_image}" alt="Portada actual" />`;
       }
+      // Mostrar imágenes existentes en el preview
+      if (p.images && Array.isArray(p.images) && p.images.length > 0) {
+        p.images.forEach(src => {
+          const img = document.createElement('img');
+          img.src = src;
+          img.title = 'Imagen existente';
+          pImagesPreview.appendChild(img);
+        });
+        const label = document.createElement('p');
+        label.className = 'preview-label';
+        label.textContent = '— Imágenes actuales —';
+        label.style.cssText = 'font-size:0.7rem;color:var(--color-text-muted);grid-column:1/-1;text-align:center;margin:0';
+        pImagesPreview.insertBefore(label, pImagesPreview.firstChild);
+      }
     } else {
       modalTitle.textContent = 'Nuevo proyecto';
       modalSaveBtn.textContent = 'Guardar proyecto';
@@ -524,7 +539,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let existingImages = [];
     if (id) {
       const p = projects.find(x => x.id === Number(id));
-      if (p && p.images) existingImages = p.images;
+      if (p) {
+        existingImages = Array.isArray(p.images) ? p.images : [];
+      }
     }
 
     const payload = {
